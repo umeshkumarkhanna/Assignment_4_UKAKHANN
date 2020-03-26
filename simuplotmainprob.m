@@ -26,5 +26,5 @@ yield = yield/nsim
 
 plot(xsim(1,:),xsim(2,:),'b.')
 
-legend('Tolerance Box Center','Maximum Yield Box','Tolerance Box','Polytope','Polytope','Polytope','Original Constraints','Original Constraints','Original Constraints','MC',-1)
+legend('Tolerance Box Center','Maximum Yield Box','Tolerance Box','Polytope','Polytope','Polytope','Original Constraints','Original Constraints','Original Constraints','MC')
 title('Yield Optimization')

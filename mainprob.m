@@ -1,12 +1,12 @@
 % The Calling routine for Solving the simple problem
 % using Max. yield s.t. box constraints
-% % created  K. Ponnambalam on November 18, 2002.
+% % created  K. Ponnambalam on November 18, 2002. 
 clear all;
 close all;
 
 %set the parameters of DBPDF
 %a = [1 1]; b = [2 2]; %Triangular-like
-% a = [1.9 1.9]; b = [0.08 0.08]; %
+% a = [1.9 1.9]; b = [0.08 0.08]; %  
 %  a = [1 1]; b = [1 1];  %Uniform
 % a = [1.65 1.65];  b = [1.8 1.8];  %For normal kind
 % a = [5 1];   b = [1 5]; % non-symmetric
@@ -18,22 +18,21 @@ a = [1 2.5];    b = [2 4];  %One Triangular , one Normal-like
 n=2; % number of design variables
 m=3; %number of original constraints
 
-npolytope =3;
+npolytope = 3;
+
 
 % Correlation Coef. matrix NOT REALLY NEEDED EXCEPT TO KEEP THE OLD FORMULATION
 R = eye(n);
-% Nominal values of the design variables:
-mu0=[.5,1];
-mu0=mu0';
-%x0 = [ [.25,.9]'; [1,.6]'; [.75,1.5]'];
-x0 = [[.25,.9]'; [1,.6]'; [.75,1.5]'; [2.1, 2.1]'; [1.9, 1.9]'];
 
+% Nominal values of the design variables:
+mu0=[0.5, 1]; 
+mu0=mu0';
+x0 = [[.25,.9]'; [1,.6]'; [.75,1.5]'; [2.1, 2.1]'; [1.9, 1.9]'];
 for iterations=1:npolytope
 
 
 sigma = 0.05 * mu0; %based on tolerance 15%
 C = diag(sigma) * R * diag(sigma);
-%x0=[mu0; mu0;mu0;];
 
 % The AFOSM algorithm to build polytopes
 
@@ -71,15 +70,16 @@ xu = mu0 + tol .* mu0;
 xl = mu0 - tol .* mu0;
 xr = xl;
 x0 =[mu0;.9*mu0;xr;];
-% t = [1 1]'; %fix it!
-t = [.21, 0.99]'; %fix it! When u0 is equal to (1, 0.5) then (0.25, 0.25) will get a 100% yield
+
+t = [.21, 0.99]'; 
+%fix it! For u0 = (1, 0.5), (0.25, 0.25) gets 100% yield 
 trange = t; %for figures
 
 %calcualte maximum yield and find the normal design (center)
  % x  = constr('dbcdfprob',x0,options,vlb,vub,[],a,b,t,As,bs); %old function
 
 [x,feval,exitflag] = fmincon('dbcdfprobfun',x0,[],[],[],[],vlb,vub,'dbcdfprobcon',[],a,b,t,As,bs);
-
+  
 xu = x(1:n,1);
 xl = x(n+1:2*n,1);
 xr = x(2*n+1:3*n,1);
@@ -92,7 +92,7 @@ if iterations >= (npolytope-2)
     drawfigmainprob
     simuplotmainprob
 end
-
+   
 x0 = xstar; %only for iterative polytopes
 
 

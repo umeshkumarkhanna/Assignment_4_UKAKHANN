@@ -25,8 +25,8 @@ R = eye(n);
 % Nominal values of the design variables:
 mu0=[.5,1];
 mu0=mu0';
-% x0 = [ [.25,.9]'; [1,.6]'; [.75,1.5]'];
-x0 = 
+x0 = [ [.25,.9]'; [1,.6]'; [.75,1.5]'];
+
 for iterations=1:npolytope
 
 
@@ -74,9 +74,8 @@ t = [1 1]'; %fix it!
 trange = t; %for figures
 
 %calcualte maximum yield and find the normal design (center)
- % x  = constr('dbcdfprob',x0,options,vlb,vub,[],a,b,t,As,bs); %old function
-
-[x,feval,exitflag] = fmincon('dbcdfprobfun',x0,[],[],[],[],vlb,vub,'dbcdfprobcon',[],a,b,t,As,bs);
+[x,feval,exitflag] = fmincon('dbcdffun',x0,[],[],[],[],vlb,vub,'dbcdffilter1con',[],a,b,t,As,bs);
+  x  = constr('dbcdfprob',x0,options,vlb,vub,[],a,b,t,As,bs);
   
 xu = x(1:n,1);
 xl = x(n+1:2*n,1);
